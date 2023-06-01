@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF merger</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+        <style>
+            *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header{
+    height: 8vh;
+    width: 100vw;
+    padding-top: 1.2vh;
+    padding-left: 4vh ;
+    /* border-radius: 0.5rem; */
+    /* background: linear-gradient(to left bottom,#65dfc9,#41b5c7); */
+    background-color: rgb(93, 91, 91);
+    color: white;
+}
+nav{
+    font-size: 2rem;
+}
+main{
+    height: 92vh;
+    width : 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #091921;
+    /* background: linear-gradient(to right top,#65dfc9,#41b5c7); */
+}
+.containor p{
+    font-size: 2rem;
+    color: black;
+    font-weight: bold;
+}
+.containor{
+    background: white;
+    min-height: 80vh;
+    width: 60%;
+    background: linear-gradient(to right bottom,rgba(255,255,255,0.3),rgba(255,255,255,0.1));
+    box-shadow:10px #41b5c7;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+.drag{
+    border: 4px dashed black;
+    height: 20vh;
+    width : 15vw;
+    position: absolute;
+    top: 10vh;
+    padding-left: 2vh;
+}
+.drag-hover{
+    border: 4px dashed rgb(206, 204, 204);
+    background: linear-gradient(to right bottom,rgba(91, 87, 87, 0.3),rgba(50, 46, 46, 0.37));
+}
+.drag-invalid{
+    border: 4px dashed red;
+}
+img{
+    height: 5vh;
+    width: 5vh;
+    position: absolute;
+    top: 6vh;
+    left: 12vh;
+}
+form{
+    position: absolute;
+    top: 37vh;
+    left: 23vw;
+}
+.submit{
+    background-color: #100426;
+    color: white;
+    height: 5vh;
+    width: 10vw;
+    border-radius: 0.5rem;
+    margin-left: 2vw;
+}
+.submit:hover{
+    background-color: #0de03b;
+    color: rgb(0, 0, 0);
+    height: 6vh;
+    width: 11vw;
+}
+
+.process{
+    height: 10vh;
+    width:  50%;
+    position: absolute;
+    top: 75%;
+}
+
+        </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            TTP PDf tools
+        </nav>
+    </header>
+    <main>
+        <div class="containor">
+            <br />
+            <p>PDF merger</p>
+            <div class="drag">
+                <img src="various-files.png" alt="Drag and Drop files" />
+            </div>
+            <form action="/merge" method="POST" enctype='multipart/form-data'>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1"><b>File input :</b></label><br />
+                    <input type="file" name="pdfs" class="form-control-file" id="exampleFormControlFile1" multiple accept=".pdf" />
+                </div><br><br>
+                <!-- <input type="submit" value="Merge PDFs" class="submit" name="submit"> -->
+                <input type='submit' class="submit" name='submit' value='Upload'>
+            </form>
+            <div class="process">
+            </div>
+        </div>
+    </main>
+    <script>
+        const drag = document.querySelector(".drag");
+
+        drag.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            drag.classList.add("drag-hover");
+        });
+
+        drag.addEventListener("dragleave", () => {
+            drag.classList.remove("drag-hover");
+        });
+
+        drag.addEventListener("drop", (e) => {
+            drag.classList.remove("drag-hover");
+            e.preventDefault();
+            drag.innerText = "File added succefully. You can add more files.";
+            drag.style.color = "green";
+            let pdf1 = e.dataTransfer.files[0];
+            let type1 = pdf1.type;
+            console.log(pdf1 + type1);
+            let pdf2 = e.dataTransfer.files[1];
+            let type2 = pdf2.type;
+            console.log(pdf1 + type1);
+        });
+        const submit = document.querySelector(".submit")
+        const process = document.querySelector(".process")
+        submit.addEventListener("click", () => {
+            process.innerText = "Started merging PDFs..."
+            process.style.color = "green"
+            process.style.fontSize = "2.5rem"
+        })
+    </script>
+</body>
+
+</html>
